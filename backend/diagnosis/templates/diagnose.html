@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Diagnosis</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts (stylish + futuristic) -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;600&family=Orbitron:wght@500;700&family=Exo+2:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Your custom CSS -->
+  <link rel="stylesheet" href="{% static 'diagnose_style.css' %}">
+</head>
+<body class="font-exo text-gray-200 relative">
+
+  <!-- Background -->
+  <div class="dotted-bg"></div>
+
+  <!-- Navbar -->
+  <header class="navbar glass-effect">
+    <h1 class="logo">🌱 Plant Disease Diagnosis</h1>
+  </header>
+
+  <!-- Django messages -->
+  {% if messages %}
+    <div class="messages glass-effect max-w-2xl mx-auto mt-6 p-4 rounded-xl">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Main Container -->
+  <main class="container">
+    
+    <!-- Upload Section -->
+    <form id="diagnoseForm" method="POST" action="{% url 'diagnose' %}" enctype="multipart/form-data" class="upload-box card-3d">
+      {% csrf_token %}
+      <h2 class="section-title">Upload Plant Image</h2>
+      <p>Take a photo or upload an image of your plant to diagnose issues.</p>
+      <input type="file" name="plantImage" id="plantInput" accept="image/*">
+      <button type="submit" class="btn-3d">Diagnose</button>
+    </form>
+
+    <!-- Preview -->
+    <section id="previewSection" class="preview-box card-3d hidden">
+      <h2 class="section-title">Preview</h2>
+      <img id="previewImage" alt="Plant Preview">
+    </section>
+
+    <!-- Result -->
+    <section id="resultSection" class="result-box card-3d hidden">
+      <h2 class="section-title">Diagnosis Result</h2>
+      <p id="resultText">Processing your plant image...</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer glass-effect">
+    <p>© 2025 All rights reserved</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="{% static 'diagnose_script.js' %}?v=2"></script>
+</body>
+</html>
